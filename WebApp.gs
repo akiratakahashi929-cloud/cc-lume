@@ -4,6 +4,70 @@
  */
 
 /**
+ * WebアプリのPOSTリクエストハンドラ (Vercel等の外部API用)
+ * @param {Object} e - イベントオブジェクト
+ * @returns {TextOutput} JSONレスポンス
+ */
+function doPost(e) {
+  let params;
+  try {
+    params = JSON.parse(e.postData.contents);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({
+      success: false,
+      error: 'Invalid JSON'
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+
+  const action = params.action;
+  const payload = params.payload || {};
+  let result;
+
+  try {
+    // API関数の動的呼び出し
+    switch (action) {
+      case 'apiLogin':
+        result = apiLogin(payload.shareKey, payload.gmail, payload.password);
+        break;
+      case 'apiGetStartupItems':
+        result = apiGetStartupItems(payload.shareKey);
+        break;
+      case 'apiGetDashboard':
+        result = apiGetDashboard(payload.token);
+        break;
+      case 'apiGetStrategyGuide':
+        result = apiGetStrategyGuide(payload.token);
+        break;
+      case 'apiGeneratePosts':
+        result = apiGeneratePosts(payload.token, payload.theme, payload.target, payload.templateData);
+        break;
+      case 'apiUpdateDictionary':
+        result = apiUpdateDictionary(payload.token, payload.updates);
+        break;
+      case 'apiGetDictionary':
+        result = apiGetDictionary(payload.token);
+        break;
+      case 'apiCompleteFirstLogin':
+        result = apiCompleteFirstLogin(payload.token);
+        break;
+      case 'apiLogout':
+        result = apiLogout(payload.token);
+        break;
+      case 'apiValidateSession':
+        result = apiValidateSession(payload.token);
+        break;
+      default:
+        result = { success: false, error: 'Unknown action: ' + action };
+    }
+  } catch (err) {
+    result = { success: false, error: err.toString() };
+  }
+
+  return ContentService.createTextOutput(JSON.stringify(result))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+/**
  * WebアプリのGETリクエストハンドラ
  * @param {Object} e - イベントオブジェクト
  * @returns {HtmlOutput} HTMLページ
@@ -45,6 +109,12 @@ function include(filename) {
  * @returns {Object} ログイン結果
  */
 function apiLogin(shareKey, gmail, password) {
+  if (arguments.length === 1 && typeof shareKey === 'object') {
+    const p = shareKey;
+    shareKey = p.shareKey;
+    gmail = p.gmail;
+    password = p.password;
+  }
   return login({ shareKey, gmail, password });
 }
 
@@ -54,6 +124,9 @@ function apiLogin(shareKey, gmail, password) {
  * @returns {Object} アカウント情報
  */
 function apiGetStartupItems(shareKey) {
+  if (arguments.length === 1 && typeof shareKey === 'object') {
+    shareKey = shareKey.shareKey;
+  }
   try {
     const accountResult = getAllAccounts();
     const accountRow = accountResult.find(row => 
@@ -122,6 +195,11 @@ function apiGetCurrentUser(token) {
  * @returns {Object} 処理結果
  */
 function apiUpdateUserProfile(token, updates) {
+  if (arguments.length === 1 && typeof token === 'object') {
+    const p = token;
+    token = p.token;
+    updates = p.updates;
+  }
   return updateUserProfile(token, updates);
 }
 
@@ -141,6 +219,11 @@ function apiGetTodayStrategyInfo(token) {
  * @returns {Object} 生成結果
  */
 function apiGeneratePosts(token, params) {
+  if (arguments.length === 1 && typeof token === 'object') {
+    const p = token;
+    token = p.token;
+    params = p.params || p; // ネストしていてもいなくても対応
+  }
   return generatePosts(token, params);
 }
 
@@ -221,6 +304,11 @@ function apiGetDictionary(token) {
  * @returns {Object} 処理結果
  */
 function apiUpdateDictionary(token, updates) {
+  if (arguments.length === 1 && typeof token === 'object') {
+    const p = token;
+    token = p.token;
+    updates = p.updates;
+  }
   try {
     const sessionResult = validateSession(token);
     if (!sessionResult.valid) {

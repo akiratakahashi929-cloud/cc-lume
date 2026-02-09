@@ -1,0 +1,12 @@
+{
+    "name": "cc-lume",
+    "version": "1.0.0",
+    "description": "CC Lume - X Post Generator",
+    "main": "index.html",
+    "scripts": {
+        "start": "serve ."
+    },
+    "dependencies": {
+        "serve": "^14.2.0"
+    }
+}

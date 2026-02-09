@@ -1,0 +1,1872 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+  /* ============================================================
+   CC Lume — Ui_Style.css
+   全画面CSS（戦略色分け・レスポンシブ・洗練デザイン）
+   ============================================================ */
+
+  /* === リセット・ベース === */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: 15px;
+  }
+
+  body {
+    font-family: 'Helvetica Neue', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: #0D0D12;
+    color: #E8E6F0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  a {
+    color: #8B7BF7;
+    text-decoration: none;
+  }
+
+  /* === 共通ユーティリティ === */
+  .hidden {
+    display: none !important;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .mt-1 {
+    margin-top: 0.5rem;
+  }
+
+  .mt-2 {
+    margin-top: 1rem;
+  }
+
+  .mt-3 {
+    margin-top: 1.5rem;
+  }
+
+  .mb-1 {
+    margin-bottom: 0.5rem;
+  }
+
+  .mb-2 {
+    margin-bottom: 1rem;
+  }
+
+  .mb-3 {
+    margin-bottom: 1.5rem;
+  }
+
+  .p-relative {
+    position: relative;
+  }
+
+  /* === 画面コンテナ === */
+  .screen {
+    display: none;
+    min-height: 100vh;
+    padding: 1.5rem;
+    max-width: 680px;
+    margin: 0 auto;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .screen.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* === ブランドヘッダー === */
+  .brand-header {
+    text-align: center;
+    padding: 2rem 0 1rem;
+  }
+
+  .brand-header .logo {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #8B7BF7, #5CE1E6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 0.05em;
+  }
+
+  .brand-header .tagline {
+    font-size: 0.8rem;
+    color: #7A7592;
+    margin-top: 0.25rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* === カード === */
+  .card {
+    background: #16151F;
+    border: 1px solid #2A2840;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-title {
+    font-size: 0.75rem;
+    color: #7A7592;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+  }
+
+  .card-glow {
+    box-shadow: 0 0 20px rgba(139, 123, 247, 0.08);
+  }
+
+  /* === ボタン === */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #8B7BF7, #6C5CE7);
+    color: #fff;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(139, 123, 247, 0.3);
+  }
+
+  .btn-secondary {
+    background: #2A2840;
+    color: #E8E6F0;
+    border: 1px solid #3D3A50;
+  }
+
+  .btn-secondary:hover:not(:disabled) {
+    background: #3D3A50;
+  }
+
+  .btn-success {
+    background: linear-gradient(135deg, #38A169, #2F855A);
+    color: #fff;
+  }
+
+  .btn-danger {
+    background: rgba(229, 62, 62, 0.15);
+    color: #FC8181;
+    border: 1px solid rgba(229, 62, 62, 0.3);
+  }
+
+  .btn-full {
+    width: 100%;
+  }
+
+  .btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .btn-copy {
+    background: #1A1927;
+    color: #8B7BF7;
+    border: 1px solid #3D3A50;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  .btn-copy:hover {
+    background: #2A2840;
+  }
+
+  .btn-copy.copied {
+    background: rgba(56, 161, 105, 0.15);
+    color: #68D391;
+    border-color: rgba(56, 161, 105, 0.3);
+  }
+
+  /* === 入力フィールド === */
+  .input-group {
+    margin-bottom: 1rem;
+  }
+
+  .input-group label {
+    display: block;
+    font-size: 0.8rem;
+    color: #9B95B0;
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+  }
+
+  .input-field {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: #1A1927;
+    border: 1px solid #2A2840;
+    border-radius: 8px;
+    color: #E8E6F0;
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
+  }
+
+  .input-field:focus {
+    outline: none;
+    border-color: #8B7BF7;
+    box-shadow: 0 0 0 2px rgba(139, 123, 247, 0.15);
+  }
+
+  .input-field::placeholder {
+    color: #4A4660;
+  }
+
+  textarea.input-field {
+    resize: vertical;
+    min-height: 80px;
+    line-height: 1.5;
+  }
+
+  /* === 戦略バナー === */
+  .strategy-banner {
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .strategy-banner.PARADOX {
+    background: rgba(229, 62, 62, 0.1);
+    border: 1px solid rgba(229, 62, 62, 0.3);
+    color: #FC8181;
+  }
+
+  .strategy-banner.EMPATHY {
+    background: rgba(49, 130, 206, 0.1);
+    border: 1px solid rgba(49, 130, 206, 0.3);
+    color: #63B3ED;
+  }
+
+  .strategy-banner.PROOF {
+    background: rgba(56, 161, 105, 0.1);
+    border: 1px solid rgba(56, 161, 105, 0.3);
+    color: #68D391;
+  }
+
+  /* === 投稿カード === */
+  .post-card {
+    background: #1A1927;
+    border: 1px solid #2A2840;
+    border-radius: 10px;
+    padding: 1.25rem;
+    margin-bottom: 0.75rem;
+    position: relative;
+  }
+
+  .post-card .variant-badge {
+    display: inline-block;
+    padding: 0.15rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  .post-card .variant-badge.A {
+    background: rgba(139, 123, 247, 0.15);
+    color: #A78BFA;
+  }
+
+  .post-card .variant-badge.B {
+    background: rgba(92, 225, 230, 0.15);
+    color: #5CE1E6;
+  }
+
+  .post-card .post-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+    white-space: pre-wrap;
+  }
+
+  .post-card .char-count {
+    font-size: 0.75rem;
+    color: #7A7592;
+  }
+
+  .post-card .char-count.over {
+    color: #FC8181;
+  }
+
+  .post-card .checklist-warn {
+    margin-top: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(229, 62, 62, 0.08);
+    border: 1px solid rgba(229, 62, 62, 0.2);
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: #FC8181;
+  }
+
+  /* === 文字数カウンター === */
+  .char-counter {
+    text-align: right;
+    font-size: 0.75rem;
+    color: #7A7592;
+    margin-top: 0.25rem;
+  }
+
+  .char-counter.warn {
+    color: #ECC94B;
+  }
+
+  .char-counter.over {
+    color: #FC8181;
+    font-weight: 600;
+  }
+
+  /* === テンプレ穴埋め === */
+  .template-slot {
+    background: #1A1927;
+    border: 1px solid #2A2840;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    position: relative;
+  }
+
+  .template-slot:hover {
+    border-color: #8B7BF7;
+  }
+
+  .template-slot .slot-label {
+    font-size: 0.75rem;
+    color: #8B7BF7;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .template-slot .slot-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: #E8E6F0;
+    font-size: 0.9rem;
+    font-family: inherit;
+    outline: none;
+  }
+
+  .template-slot .hint-popup {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background: #201F2E;
+    border: 1px solid #3D3A50;
+    border-radius: 8px;
+    padding: 0.75rem;
+    margin-top: 4px;
+    font-size: 0.8rem;
+    color: #9B95B0;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .template-slot:hover .hint-popup,
+  .template-slot:focus-within .hint-popup {
+    display: block;
+  }
+
+  .hint-popup li {
+    margin-bottom: 0.3rem;
+    list-style: none;
+    padding-left: 1rem;
+    position: relative;
+  }
+
+  .hint-popup li::before {
+    content: '💡';
+    position: absolute;
+    left: 0;
+    font-size: 0.7rem;
+  }
+
+  /* === リプライ欄 === */
+  .reply-block {
+    background: #1A1927;
+    border: 1px solid #2A2840;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    position: relative;
+  }
+
+  .reply-block .reply-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .reply-block .reply-label {
+    font-size: 0.8rem;
+    color: #7A7592;
+    font-weight: 600;
+  }
+
+  .btn-remove-reply {
+    background: none;
+    border: none;
+    color: #FC8181;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 0.2rem;
+  }
+
+  /* === ガイドパネル === */
+  .guide-panel {
+    background: #16151F;
+    border: 1px solid #2A2840;
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .guide-panel h4 {
+    font-size: 0.8rem;
+    color: #7A7592;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+  }
+
+  .guide-item {
+    font-size: 0.85rem;
+    padding: 0.35rem 0;
+    color: #B0ABC0;
+  }
+
+  .guide-item.dont {
+    color: #FC8181;
+  }
+
+  .guide-item .emoji {
+    margin-right: 0.4rem;
+  }
+
+  /* === ステータス表示 === */
+  .stat-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .stat-box {
+    flex: 1;
+    background: #1A1927;
+    border: 1px solid #2A2840;
+    border-radius: 8px;
+    padding: 0.75rem;
+    text-align: center;
+  }
+
+  .stat-box .stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #8B7BF7;
+  }
+
+  .stat-box .stat-label {
+    font-size: 0.7rem;
+    color: #7A7592;
+    margin-top: 0.15rem;
+  }
+
+  /* === プレゼント画面 === */
+  .present-screen {
+    text-align: center;
+    padding-top: 2rem;
+  }
+
+  .present-screen .present-icon {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #8B7BF7;
+    margin-bottom: 1rem;
+  }
+
+  .present-screen .present-banner {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+  }
+
+  .present-screen .present-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #8B7BF7, #5CE1E6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .present-screen .present-text {
+    color: #9B95B0;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* === 辞書画面 === */
+  .dict-category {
+    margin-bottom: 1rem;
+  }
+
+  .dict-category label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #B0ABC0;
+    margin-bottom: 0.4rem;
+  }
+
+  .dict-category .dict-hint {
+    font-size: 0.75rem;
+    color: #5A5672;
+    margin-bottom: 0.3rem;
+  }
+
+  /* === ナビゲーション === */
+  .nav-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #16151F;
+    border-top: 1px solid #2A2840;
+    display: flex;
+    padding: 0.5rem 0;
+    z-index: 100;
+  }
+
+  .nav-bar .nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.5rem 0;
+    cursor: pointer;
+    color: #5A5672;
+    font-size: 0.65rem;
+    transition: color 0.2s;
+    background: none;
+    border: none;
+    font-family: inherit;
+  }
+
+  .nav-bar .nav-item.active {
+    color: #8B7BF7;
+  }
+
+  .nav-bar .nav-item:hover {
+    color: #B0ABC0;
+  }
+
+  .nav-bar .nav-icon {
+    font-size: 1.2rem;
+  }
+
+  .screen {
+    padding-bottom: 5rem;
+  }
+
+  /* === 通知・トースト === */
+  .toast {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    z-index: 200;
+    animation: toastIn 0.3s ease;
+    max-width: 90%;
+  }
+
+  @keyframes toastIn {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
+  .toast.success {
+    background: rgba(56, 161, 105, 0.15);
+    border: 1px solid rgba(56, 161, 105, 0.3);
+    color: #68D391;
+  }
+
+  .toast.error {
+    background: rgba(229, 62, 62, 0.15);
+    border: 1px solid rgba(229, 62, 62, 0.3);
+    color: #FC8181;
+  }
+
+  .toast.info {
+    background: rgba(139, 123, 247, 0.15);
+    border: 1px solid rgba(139, 123, 247, 0.3);
+    color: #A78BFA;
+  }
+
+  /* === ローディング === */
+  .loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(13, 13, 18, 0.85);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 300;
+  }
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #2A2840;
+    border-top-color: #8B7BF7;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .loading-text {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: #7A7592;
+  }
+
+  /* === 書き方ガイド固定表示 === */
+  .writing-guide {
+    background: rgba(139, 123, 247, 0.05);
+    border: 1px solid rgba(139, 123, 247, 0.15);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+
+  .writing-guide h5 {
+    font-size: 0.8rem;
+    color: #8B7BF7;
+    margin-bottom: 0.5rem;
+  }
+
+  .writing-guide .guide-do,
+  .writing-guide .guide-dont {
+    font-size: 0.8rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .writing-guide .guide-do {
+    color: #68D391;
+  }
+
+  .writing-guide .guide-dont {
+    color: #FC8181;
+  }
+
+  /* === 承認コピー（辞書） === */
+  .dict-approval {
+    background: rgba(139, 123, 247, 0.05);
+    border: 1px solid rgba(139, 123, 247, 0.1);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+    color: #9B95B0;
+    text-align: center;
+    margin-top: 1rem;
+    font-style: italic;
+  }
+
+  /* === 新プロフィールカード (統合デザイン) === */
+  .profile-card {
+    background: #16151F;
+    border: 1px solid #2A2840;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .profile-card .banner-box {
+    width: 100%;
+    height: 140px;
+    overflow: hidden;
+  }
+
+  .profile-card .banner-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .profile-card .profile-main {
+    display: flex;
+    align-items: center;
+    padding: 0 1.5rem;
+    margin-top: -30px;
+    /* アイコンをバナーに被せる */
+    gap: 1rem;
+  }
+
+  .profile-card .icon-box {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 3px solid #16151F;
+    overflow: hidden;
+    background: #1A1927;
+    flex-shrink: 0;
+  }
+
+  .profile-card .icon-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .profile-card .profile-info {
+    margin-top: 35px;
+  }
+
+  .profile-card .p-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #E8E6F0;
+  }
+
+  .profile-card .p-id {
+    font-size: 0.85rem;
+    color: #7A7592;
+  }
+
+  .profile-card .profile-bio-box {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .profile-card .p-bio {
+    background: #201F2E;
+    border-radius: 10px;
+    padding: 1rem;
+    font-size: 0.9rem;
+    color: #B0ABC0;
+    white-space: pre-wrap;
+    line-height: 1.6;
+  }
+
+  .profile-card .profile-meta {
+    padding: 0 1.5rem 1.5rem;
+    border-top: 1px solid #2A2840;
+    padding-top: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .profile-card .p-invite {
+    font-family: monospace;
+    font-size: 1.1rem;
+    color: #8B7BF7;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    background: #1A1927;
+    padding: 0.5rem;
+    border-radius: 6px;
+    text-align: center;
+  }
+
+  /* === コピーガイド === */
+  .copy-guide {
+    font-size: 0.8rem;
+    color: #8B7BF7;
+    background: rgba(139, 123, 247, 0.1);
+    border: 1px dashed rgba(139, 123, 247, 0.3);
+    padding: 0.6rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    text-align: center;
+  }
+
+  /* タップ可能要素の視覚フィードバック */
+  .profile-card [style*="cursor: pointer"]:hover {
+    filter: brightness(1.2);
+  }
+
+  .profile-card [style*="cursor: pointer"]:active {
+    transform: scale(0.98);
+    filter: brightness(0.9);
+  }
+
+  /* === レスポンシブ === */
+  @media (max-width: 480px) {
+    html {
+      font-size: 14px;
+    }
+
+    .screen {
+      padding: 1rem;
+      padding-bottom: 5rem;
+    }
+
+    .stat-row {
+      flex-direction: column;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+  <!-- ============ ローディング ============ -->
+  <div id="loadingOverlay" class="loading-overlay hidden">
+    <div class="spinner"></div>
+    <div class="loading-text" id="loadingText">読み込み中...</div>
+  </div>
+
+  <!-- === Coming Soon 画面 === -->
+  <div id="screenComingSoon" class="screen">
+    <div class="brand-header">
+      <div class="logo">CC Lume 2.0</div>
+      <div class="tagline">COMING SOON</div>
+    </div>
+
+    <div class="card text-center">
+      <div style="font-size: 3rem; margin-bottom: 1rem;">🚀</div>
+      <h2 style="margin-bottom: 1rem;">Coming Soon...</h2>
+      <p style="color: #7A7592; font-size: 0.9rem; margin-bottom: 2rem;">
+        ご登録ありがとうございます。<br>
+        投稿作成機能を含むフルバージョンは現在開発中です。<br>
+        準備が整い次第、順次公開させていただきます。
+      </p>
+      <button class="btn btn-secondary btn-full" onclick="handleLogout()">ログアウトして閉じる</button>
+    </div>
+  </div>
+
+  <!-- === Dashboard 画面 === -->
+  <div id="toast" class="toast hidden"></div>
+
+  <!-- ============================================================
+     Screen 1: Access Gate（ログイン）
+     ============================================================ -->
+  <div id="screenLogin" class="screen active">
+    <div class="brand-header">
+      <div class="logo">CC Lume</div>
+      <div class="tagline">Your Post Engine</div>
+    </div>
+
+    <div class="card card-glow mt-3">
+      <div class="card-title">Access Gate</div>
+
+      <div class="input-group">
+        <label>発行キーコード</label>
+        <input type="text" id="loginShareKey" class="input-field" placeholder="共有時に発行されたキー">
+      </div>
+      <div class="input-group">
+        <label>Gmailアドレス</label>
+        <input type="email" id="loginGmail" class="input-field" placeholder="example@gmail.com">
+      </div>
+      <div class="input-group">
+        <label>パスワード</label>
+        <input type="password" id="loginPassword" class="input-field" placeholder="パスワード">
+      </div>
+
+      <button class="btn btn-primary btn-full mt-2" id="btnLogin" onclick="handleLogin()">
+        ログイン
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+     Screen 2: Starter Kit（初回プレゼント）
+     ============================================================ -->
+  <div id="screenPresent" class="screen">
+    <div class="present-screen">
+      <div class="brand-header">
+        <div class="logo">Welcome!</div>
+        <div class="tagline">Starter Kit</div>
+      </div>
+
+      <div id="presentProfileArea" class="profile-card">
+        <div id="presentBannerWrap" class="banner-box hidden">
+          <img id="presentBannerImage" src="" alt="Banner">
+        </div>
+
+        <div class="profile-main">
+          <div id="presentIconWrap" class="icon-box hidden">
+            <img id="presentIconImage" src="" alt="Icon">
+          </div>
+          <div class="profile-info">
+            <div id="presentAccountName" class="p-name" title="タップでコピー"></div>
+            <div id="presentId" class="p-id" title="タップでコピー"></div>
+          </div>
+        </div>
+
+        <div class="profile-bio-box">
+          <div id="presentBio" class="p-bio"></div>
+        </div>
+
+        <div class="profile-meta">
+          <div class="input-group">
+            <label>招待コード (タップでコピー)</label>
+            <div id="presentInviteCode" class="p-invite"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="copy-guide">
+        💡 各項目をタップして内容をコピーできます
+      </div>
+
+      <button class="btn btn-primary btn-full mt-3" onclick="handleCompleteFirstLogin()">
+        受け取ってはじめる
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+     Screen 3: Command Deck（ダッシュボード）
+     ============================================================ -->
+  <div id="screenDashboard" class="screen">
+    <div class="brand-header">
+      <div class="logo">CC Lume</div>
+      <div class="tagline" id="dashUserName"></div>
+    </div>
+
+    <!-- 戦略バナー -->
+    <div class="strategy-banner" id="dashStrategyBanner"></div>
+
+    <!-- ステータス -->
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-value" id="dashTodayCount">0</div>
+        <div class="stat-label">今日の生成</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="dashDailyMax">3</div>
+        <div class="stat-label">本日上限</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="dashTotalCount">0</div>
+        <div class="stat-label">累計生成</div>
+      </div>
+    </div>
+
+    <!-- アクション -->
+    <button class="btn btn-primary btn-full" onclick="navigateTo('studio')">
+      ✍️ 投稿をつくる
+    </button>
+    <button class="btn btn-secondary btn-full mt-1" onclick="navigateTo('dictionary')">
+      📖 辞書を育てる
+    </button>
+  </div>
+
+  <!-- ============================================================
+     Screen 4: Post Studio（投稿生成 - 1画面段階表示）
+     ============================================================ -->
+  <div id="screenStudio" class="screen">
+    <!-- 戦略バナー -->
+    <div class="strategy-banner" id="studioStrategyBanner"></div>
+
+    <!-- ① テーマ / ターゲット入力 -->
+    <div class="card">
+      <div class="card-title">① テーマ / ターゲット</div>
+      <div class="input-group">
+        <label>テーマ</label>
+        <input type="text" id="inputTheme" class="input-field" placeholder="例：副業審査に落ちた体験" maxlength="100">
+        <div class="char-counter"><span id="themeCount">0</span>/100</div>
+      </div>
+      <div class="input-group">
+        <label>ターゲット</label>
+        <input type="text" id="inputTarget" class="input-field" placeholder="例：副業初心者・不安層" maxlength="50">
+        <div class="char-counter"><span id="targetCount">0</span>/50</div>
+      </div>
+
+      <button class="btn btn-primary btn-full mt-1" id="btnGenerate" onclick="handleGenerate()">
+        🚀 生成する
+      </button>
+      <div class="text-center mt-1">
+        <span style="font-size:0.8rem;color:#7A7592;">残り <span id="studioRemaining">3</span> 回</span>
+      </div>
+    </div>
+
+    <!-- ② 投稿テンプレ（穴埋め）- 生成後に表示 -->
+    <div id="templateSection" class="hidden mt-2">
+      <div class="card">
+        <div class="card-title">② テンプレート（穴埋め）</div>
+        <div id="templateSlots"></div>
+      </div>
+    </div>
+
+    <!-- ③④ 生成結果 / メイン投稿 / リプライ -->
+    <div id="resultSection" class="hidden mt-2">
+      <!-- A/B投稿カード -->
+      <div id="postCards"></div>
+
+      <!-- ③ メイン投稿編集 -->
+      <div class="card mt-2">
+        <div class="card-title">③ メイン投稿（編集可能）</div>
+        <textarea id="mainPostEdit" class="input-field" rows="4" placeholder="テンプレから反映するか、直接編集してください"></textarea>
+        <div class="char-counter" id="mainPostCounter">0/140</div>
+        <button class="btn btn-sm btn-secondary mt-1" onclick="reflectTemplateToMain()">テンプレから本文に反映</button>
+      </div>
+
+      <!-- ④ リプライ編集 -->
+      <div class="card">
+        <div class="card-title">④ リプライ</div>
+        <div id="replyBlocks"></div>
+        <button class="btn btn-sm btn-secondary mt-1" onclick="addReplyBlock()">＋ リプを追加</button>
+      </div>
+
+      <!-- ⑤ 戦略ガイド -->
+      <div id="strategyGuidePanel" class="guide-panel mt-2"></div>
+
+      <!-- ⑥ コピーボタン -->
+      <div class="card mt-2">
+        <div class="card-title">⑥ コピー → Xに貼るだけ</div>
+        <button class="btn btn-copy btn-full mb-1" onclick="copyMainPost()">📋 メイン投稿をコピー</button>
+        <button class="btn btn-copy btn-full mb-1" onclick="copyReply(0)">📋 リプ1をコピー</button>
+        <button class="btn btn-copy btn-full" onclick="copyAllReplies()">📋 リプ全部を順番コピー</button>
+      </div>
+
+      <!-- 書き方ガイド（固定） -->
+      <div class="writing-guide">
+        <h5>📝 書き方ガイド（30秒）</h5>
+        <div class="guide-do">✅ 【 】をあなたの体験に置き換えてください</div>
+        <div class="guide-do">✅ 数字 or 固有名詞を1つ入れると強くなります</div>
+        <div class="guide-do">✅ 完璧に書こうとしなくてOK</div>
+        <div class="guide-dont mt-1">🚫 【】を消さずに投稿</div>
+        <div class="guide-dont">🚫 全部一般論にする</div>
+        <div class="guide-dont">🚫 CTAを無理につける</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+     Screen 5: Experience Dictionary（辞書）
+     ============================================================ -->
+  <div id="screenDictionary" class="screen">
+    <div class="brand-header">
+      <div class="logo" style="font-size:1.5rem;">Experience Dictionary</div>
+      <div class="tagline">あなたの引き出し</div>
+    </div>
+
+    <div class="card">
+      <div class="dict-category">
+        <label>📌 Facts（事実シーン）</label>
+        <div class="dict-hint">1件120〜160文字｜何があったか、具体的に</div>
+        <textarea id="dictFacts" class="input-field" rows="3" placeholder="例：CrowdWorksの審査に3回落ちた。原因は〜"></textarea>
+      </div>
+      <div class="dict-category">
+        <label>🔢 Numbers（数字）</label>
+        <div class="dict-hint">1件40文字以内｜具体的な数字</div>
+        <textarea id="dictNumbers" class="input-field" rows="2" placeholder="例：3ヶ月で月10万達成"></textarea>
+      </div>
+      <div class="dict-category">
+        <label>💪 Efforts（努力）</label>
+        <div class="dict-hint">1件80〜120文字｜何を頑張ったか</div>
+        <textarea id="dictEfforts" class="input-field" rows="3" placeholder="例：毎朝5時に起きて1時間だけ作業した"></textarea>
+      </div>
+      <div class="dict-category">
+        <label>❤️ Emotions（感情）</label>
+        <div class="dict-hint">1件40〜80文字｜その時の気持ち</div>
+        <textarea id="dictEmotions" class="input-field" rows="2" placeholder="例：悔しくて眠れなかった"></textarea>
+      </div>
+      <div class="dict-category">
+        <label>✨ Aesthetics（美学）</label>
+        <div class="dict-hint">1件80〜120文字｜大切にしていること</div>
+        <textarea id="dictAesthetics" class="input-field" rows="3" placeholder="例：量より質。1日1投稿でも本気で"></textarea>
+      </div>
+      <div class="dict-category">
+        <label>🎯 Punchline（言い切り）</label>
+        <div class="dict-hint">1件60〜90文字｜あなたの決め台詞</div>
+        <textarea id="dictPunchline" class="input-field" rows="2" placeholder="例：結局、やった人だけが語れる"></textarea>
+      </div>
+
+      <button class="btn btn-success btn-full mt-2" onclick="handleSaveDictionary()">
+        💾 辞書を保存
+      </button>
+
+      <div class="dict-approval">
+        これはあなたの辞書。育ててOK。<br>
+        後から違うと思ったら、直せばいい。
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================
+     Screen 6: Growth Console（生成履歴/KPI）
+     ============================================================ -->
+  <div id="screenGrowth" class="screen">
+    <div class="brand-header">
+      <div class="logo" style="font-size:1.5rem;">Growth Console</div>
+      <div class="tagline">あなたの成長記録</div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-value" id="growthTotal">0</div>
+        <div class="stat-label">累計生成数</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="growthToday">0</div>
+        <div class="stat-label">今日の生成</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">戦略実績</div>
+      <div style="font-size:0.85rem;color:#9B95B0;">
+        今後のアップデートで、戦略ごとの実績や反応率を表示予定です。
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+     ナビゲーションバー
+     ============================================================ -->
+  <nav id="navBar" class="nav-bar hidden">
+    <button class="nav-item active" data-screen="dashboard" onclick="navigateTo('dashboard')">
+      <span class="nav-icon">🏠</span>
+      <span>ホーム</span>
+    </button>
+    <button class="nav-item" data-screen="studio" onclick="navigateTo('studio')">
+      <span class="nav-icon">✍️</span>
+      <span>投稿</span>
+    </button>
+    <button class="nav-item" data-screen="dictionary" onclick="navigateTo('dictionary')">
+      <span class="nav-icon">📖</span>
+      <span>辞書</span>
+    </button>
+    <button class="nav-item" data-screen="growth" onclick="navigateTo('growth')">
+      <span class="nav-icon">📊</span>
+      <span>成長</span>
+    </button>
+  </nav>
+
+  <script>
+  /* ============================================================
+     CC Lume — Ui_App.js
+     フロントJS（全画面制御・API通信・穴埋め・リプライ・コピー・ヒント）
+     ============================================================ */
+
+  // === グローバル状態 ===
+  var APP = {
+    token: null,
+    lotNumber: null,
+    currentScreen: 'login',
+    strategy: null,
+    strategyColor: null,
+    posts: null,
+    replyCount: 0,
+    templateData: null,
+    shareKey: '', // 追加
+    // Vercelデプロイ時のGASバックエンドURL
+    gasUrl: 'https://script.google.com/macros/s/AKfycbyARAuxDvgIRAH3-K9peyYTO0kdMuccij2Udkld46plyrOAeFqpFv00MfBF6GsAwnq6/exec'
+  };
+
+  /**
+   * API呼び出しの統合ラッパー
+   * GAS環境なら google.script.run、Vercel等なら fetch (/api/proxy) を使用
+   */
+  async function callApi(action, payload) {
+    return new Promise((resolve, reject) => {
+      // GAS環境判定
+      if (typeof google !== 'undefined' <?!= include('Ui_App.js') ?><?!= include('Ui_App.js') ?> google.script <?!= include('Ui_App.js') ?><?!= include('Ui_App.js') ?> google.script.run) {
+        google.script.run
+          .withSuccessHandler(resolve)
+          .withFailureHandler(reject)
+        [action].apply(google.script.run, payload);
+      } else {
+        // Vercel環境: 自前のAPIプロキシを経由してGASを叩く
+        fetch('/api/proxy', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: action, payload: payload })
+        })
+          .then(res => res.json())
+          .then(resolve)
+          .catch(reject);
+      }
+    });
+  }
+
+  // ============================================================
+  // 画面遷移
+  // ============================================================
+  function navigateTo(screen) {
+    // === Version 1.0 寸断ガード ===
+    // ログイン済みかつComing Soonが表示されるべき状態なら、他画面への遷移を阻止
+    if (APP.token <?!= include('Ui_App.js') ?><?!= include('Ui_App.js') ?> screen !== 'login' <?!= include('Ui_App.js') ?><?!= include('Ui_App.js') ?> screen !== 'present' <?!= include('Ui_App.js') ?><?!= include('Ui_App.js') ?> screen !== 'comingSoon') {
+      screen = 'comingSoon';
+    }
+
+    // 全画面非表示
+    document.querySelectorAll('.screen').forEach(function (s) { s.classList.remove('active'); });
+
+    var screenMap = {
+      'login': 'screenLogin',
+      'present': 'screenPresent',
+      'comingSoon': 'screenComingSoon',
+      'dashboard': 'screenDashboard',
+      'studio': 'screenStudio',
+      'dictionary': 'screenDictionary',
+      'growth': 'screenGrowth'
+    };
+
+    var el = document.getElementById(screenMap[screen]);
+    if (el) el.classList.add('active');
+    APP.currentScreen = screen;
+
+    // ナビバー表示制御
+    var nav = document.getElementById('navBar');
+    if (screen === 'login' || screen === 'present' || screen === 'comingSoon') {
+      nav.classList.add('hidden'); // Coming Soonでも隠す
+    } else {
+      nav.classList.remove('hidden');
+    }
+
+    // ナビアクティブ
+    document.querySelectorAll('.nav-item').forEach(function (ni) {
+      ni.classList.toggle('active', ni.dataset.screen === screen);
+    });
+
+    // 画面ごとの初期化
+    if (screen === 'dashboard') loadDashboard();
+    if (screen === 'studio') loadStudio();
+    if (screen === 'dictionary') loadDictionary();
+    if (screen === 'growth') loadGrowth();
+    if (screen === 'present') loadPresent();
+
+    window.scrollTo(0, 0);
+  }
+
+  // ============================================================
+  // ログイン
+  // ============================================================
+  function handleLogin() {
+    var shareKey = document.getElementById('loginShareKey').value.trim();
+    var gmail = document.getElementById('loginGmail').value.trim();
+    var password = document.getElementById('loginPassword').value.trim();
+
+    if (!shareKey || !gmail || !password) {
+      showToast('全ての項目を入力してください。', 'error');
+      return;
+    }
+
+    showLoading('ログイン中...');
+    document.getElementById('btnLogin').disabled = true;
+
+    callApi('apiLogin', { shareKey: shareKey, gmail: gmail, password: password })
+      .then(function (res) {
+        hideLoading();
+        document.getElementById('btnLogin').disabled = false;
+        if (res.success) {
+          APP.token = res.token;
+          APP.shareKey = shareKey; // 発行キーを保持
+          if (res.isFirstLogin) {
+            setupPresent(res.accountInfo);
+            navigateTo('present');
+          } else {
+            navigateTo('comingSoon'); // ログイン済みなら直接Coming Soonへ
+          }
+        } else {
+          showToast(res.error || 'ログインに失敗しました', 'error');
+        }
+      })
+      .catch(function (err) {
+        hideLoading();
+        document.getElementById('btnLogin').disabled = false;
+        showToast('通信エラーが発生しました。', 'error');
+      });
+  }
+
+  // ============================================================
+  // 初回プレゼント
+  // ============================================================
+  function setupPresent(accountInfo) {
+    // 存在しない要素(presentName)へのアクセスを削除してクラッシュ防止
+    document.getElementById('presentBannerWrap').classList.add('hidden');
+    document.getElementById('presentIconWrap').classList.add('hidden');
+    document.getElementById('presentAccountName').textContent = accountInfo.accountName || '';
+    document.getElementById('presentId').textContent = '';
+    document.getElementById('presentBio').textContent = '';
+    document.getElementById('presentInviteCode').textContent = '';
+  }
+
+  function loadPresent() {
+    if (!APP.shareKey) {
+      console.error('shareKey が未設定のため Starter Kit を取得できません');
+      return;
+    }
+
+    callApi('apiGetStartupItems', { shareKey: APP.shareKey })
+      .then(function (res) {
+        console.log('StartupItems res:', res);
+        if (!res || !res.success) {
+          console.error('apiGetStartupItems の取得に失敗しました');
+          return;
+        }
+
+        var bannerUrl = res.bannerUrl || '';
+        var iconUrl = res.iconUrl || '';
+        var x = (res.xId || '').trim();
+        if (x <?!= include('Ui_App.js') ?><?!= include('Ui_App.js') ?> x[0] !== '@') x = '@' + x;
+
+        document.getElementById('presentAccountName').textContent = res.accountName || '';
+        document.getElementById('presentId').textContent = x;
+        document.getElementById('presentBio').textContent = res.bio || '';
+        document.getElementById('presentInviteCode').textContent = res.inviteCode || '';
+
+        if (bannerUrl) {
+          document.getElementById('presentBannerImage').src = bannerUrl;
+          document.getElementById('presentBannerWrap').classList.remove('hidden');
+        }
+        if (iconUrl) {
+          document.getElementById('presentIconImage').src = iconUrl;
+          document.getElementById('presentIconWrap').classList.remove('hidden');
+        }
+
+        // 各要素をクリックでコピー（指示に基づく「反応」の改善）
+        var setCopyClick = function (id, text, label) {
+          var el = document.getElementById(id);
+          if (!el) return;
+          el.style.cursor = 'pointer';
+          el.title = label + 'をコピー';
+          el.onclick = function () {
+            if (!text) return;
+            copyToClipboard(text);
+          };
+        };
+
+        setCopyClick('presentAccountName', res.accountName, 'アカウント名');
+        setCopyClick('presentId', x, 'ID');
+        setCopyClick('presentBio', res.bio, 'バイオ');
+        setCopyClick('presentInviteCode', res.inviteCode, '招待コード');
+        setCopyClick('presentBannerWrap', bannerUrl, 'バナーURL');
+        setCopyClick('presentIconWrap', iconUrl, 'アイコンURL');
+
+      })
+      .catch(function (err) {
+        console.error('apiGetStartupItems error:', err);
+      });
+  }
+
+  function handleCompleteFirstLogin() {
+    showLoading('準備中...');
+    callApi('apiCompleteFirstLogin', { token: APP.token })
+      .then(function (res) {
+        hideLoading();
+        navigateTo('comingSoon'); // Coming Soonへ遷移
+      })
+      .catch(function () {
+        hideLoading();
+        navigateTo('comingSoon');
+      });
+  }
+
+  // ============================================================
+  // ダッシュボード
+  // ============================================================
+  function loadDashboard() {
+    if (!APP.token) return;
+    callApi('apiGetDashboard', { token: APP.token })
+      .then(function (res) {
+        if (!res.success) return;
+        document.getElementById('dashUserName').textContent = (res.accountName || res.userName || '') + ' — Command Deck';
+        document.getElementById('dashTodayCount').textContent = res.todayCount;
+        document.getElementById('dashDailyMax').textContent = res.dailyMax;
+        document.getElementById('dashTotalCount').textContent = res.totalCount;
+
+        var banner = document.getElementById('dashStrategyBanner');
+        banner.textContent = '今日は' + res.dayName + '曜日。' + res.strategy + ' で伸ばす日です。';
+        banner.className = 'strategy-banner ' + res.strategy;
+
+        APP.strategy = res.strategy;
+        APP.strategyColor = res.strategyColor;
+      })
+      .catch(function (err) {
+        console.error('dashboard error:', err);
+      });
+  }
+
+  // ============================================================
+  // 投稿生成画面
+  // ============================================================
+  function loadStudio() {
+    if (!APP.token) return;
+    callApi('apiGetStrategyGuide', { token: APP.token })
+      .then(function (res) {
+        if (!res.success) return;
+        var banner = document.getElementById('studioStrategyBanner');
+        banner.textContent = '今日は' + res.dayName + '曜日。' + res.strategy + ' で伸ばす日です。';
+        banner.className = 'strategy-banner ' + res.strategy;
+        APP.strategy = res.strategy;
+
+        // 戦略ガイド表示
+        renderStrategyGuide(res.guide);
+
+        // 残り回数取得 (Dashboard経由)
+        return callApi('apiGetDashboard', { token: APP.token });
+      })
+      .then(function (dashRes) {
+        if (dashRes <?!= include('Ui_App.js') ?><?!= include('Ui_App.js') ?> dashRes.success) {
+          var remaining = dashRes.dailyMax - dashRes.todayCount;
+          document.getElementById('studioRemaining').textContent = Math.max(0, remaining);
+        }
+      })
+      .catch(function (err) {
+        console.error('studio init error:', err);
+      });
+
+    // 文字数カウンター
+    document.getElementById('inputTheme').oninput = function () {
+      document.getElementById('themeCount').textContent = this.value.length;
+    };
+    document.getElementById('inputTarget').oninput = function () {
+      document.getElementById('targetCount').textContent = this.value.length;
+    };
+  }
+
+  function handleGenerate() {
+    var theme = document.getElementById('inputTheme').value.trim();
+    var target = document.getElementById('inputTarget').value.trim();
+
+    if (!theme) { showToast('テーマを入力してください。', 'error'); return; }
+    if (!target) { showToast('ターゲットを入力してください。', 'error'); return; }
+
+    showLoading('AI生成中...');
+    document.getElementById('btnGenerate').disabled = true;
+
+    callApi('apiGeneratePosts', { token: APP.token, theme: theme, target: target, params: null })
+      .then(function (res) {
+        hideLoading();
+        document.getElementById('btnGenerate').disabled = false;
+        if (res.success) {
+          APP.posts = res.posts;
+          APP.templateData = res.templateInfo;
+          renderGenerationResult(res);
+          showToast('生成完了！', 'success');
+        } else {
+          showToast(res.message, 'error');
+        }
+      })
+      .catch(function (err) {
+        hideLoading();
+        document.getElementById('btnGenerate').disabled = false;
+        showToast('生成に失敗しました。再度お試しください。', 'error');
+      });
+  }
+
+  function renderGenerationResult(res) {
+    // 残り回数更新
+    var remaining = res.dailyMax - res.todayCount;
+    document.getElementById('studioRemaining').textContent = Math.max(0, remaining);
+
+    // テンプレ穴埋め
+    renderTemplateSlots(res.strategy, res.templateInfo);
+    document.getElementById('templateSection').classList.remove('hidden');
+
+    // A/B投稿カード
+    var cardsHtml = '';
+    for (var i = 0; i < res.posts.length; i++) {
+      var p = res.posts[i];
+      var cl = p.checklistResult;
+      cardsHtml += '<div class="post-card">';
+      cardsHtml += '<span class="variant-badge ' + p.abVariant + '">' + p.abVariant + ' — ' + (res.abRules ? res.abRules[p.abVariant] : '') + '</span>';
+      cardsHtml += '<div class="post-text">' + escapeHtml(p.text) + '</div>';
+      cardsHtml += '<div class="char-count' + (p.text.length > 140 ? ' over' : '') + '">' + p.text.length + '文字</div>';
+      if (!cl.passed) {
+        cardsHtml += '<div class="checklist-warn">';
+        for (var r = 0; r < cl.reasons.length; r++) {
+          cardsHtml += '⚠️ ' + escapeHtml(cl.reasons[r]) + '<br>';
+        }
+        cardsHtml += '</div>';
+      }
+      cardsHtml += '<button class="btn btn-copy btn-sm mt-1" onclick="copyPostText(' + i + ')">📋 コピー</button>';
+      cardsHtml += '</div>';
+    }
+    document.getElementById('postCards').innerHTML = cardsHtml;
+
+    // メイン投稿編集欄にA投稿をセット
+    document.getElementById('mainPostEdit').value = res.posts[0] ? res.posts[0].text : '';
+    updateMainPostCounter();
+
+    // メイン投稿カウンター
+    document.getElementById('mainPostEdit').oninput = updateMainPostCounter;
+
+    // リプライ初期化
+    document.getElementById('replyBlocks').innerHTML = '';
+    APP.replyCount = 0;
+    // EMPATHY/PROOFは初手リプ自動挿入
+    if (res.strategy === 'EMPATHY' || res.strategy === 'PROOF') {
+      addReplyBlock('リプありがとうございます！実はこの話には続きがあって…');
+    } else {
+      addReplyBlock('');
+    }
+
+    document.getElementById('resultSection').classList.remove('hidden');
+  }
+
+  function updateMainPostCounter() {
+    var text = document.getElementById('mainPostEdit').value;
+    var counter = document.getElementById('mainPostCounter');
+    counter.textContent = text.length + '/140';
+    counter.className = 'char-counter';
+    if (text.length > 140) counter.className += ' over';
+    else if (text.length > 130) counter.className += ' warn';
+  }
+
+  // ============================================================
+  // テンプレ穴埋め
+  // ============================================================
+  function renderTemplateSlots(strategy, templateInfo) {
+    var templates = {
+      PARADOX: [
+        { label: '常識', placeholder: 'みんなが信じている前提', hints: ['自分も昔は信じていたこと', 'SNSでよく見る言葉', '"普通はこう"と思われていること'] },
+        { label: '体験', placeholder: '一番しんどかった具体場面', hints: ['失敗した数字・期間', '感情が動いた瞬間', '誰にも言ってない体験'] },
+        { label: '問い', placeholder: '軽い問いかけ', hints: ['「あなたはどう思う？」', '「本当にそう？」', '考えさせる一言'] }
+      ],
+      EMPATHY: [
+        { label: '悩み', placeholder: '今つらい状況', hints: ['我慢していたことは？', '言えなかった本音は？', '逃げたかった瞬間は？'] },
+        { label: '過去体験', placeholder: '自分も同じだった話', hints: ['いつ、どこで？', '何が一番きつかった？', '今なら当時の自分に何と言う？'] },
+        { label: '呼びかけ', placeholder: '共有・誘い', hints: ['「体験教えて」', '「同じ人いない？」', '返信しやすい問いかけ'] }
+      ],
+      PROOF: [
+        { label: '数字成果', placeholder: '具体的な数字結果', hints: ['期間と金額', 'Before→After', '数字で言うと何が変わった？'] },
+        { label: '行動①', placeholder: '具体行動1つ目', hints: ['一番効果があったこと', '毎日やったこと', '1つに絞るなら？'] },
+        { label: '行動②', placeholder: '具体行動2つ目', hints: ['補助的にやったこと', '逆に「やらなくていい」と思ったこと', 'コストゼロでできたこと'] }
+      ]
+    };
+
+    var slots = templates[strategy] || templates.PARADOX;
+    var html = '';
+    for (var i = 0; i < slots.length; i++) {
+      var s = slots[i];
+      html += '<div class="template-slot">';
+      html += '<div class="slot-label">【' + s.label + '】</div>';
+      html += '<input type="text" class="slot-input" id="slot_' + i + '" placeholder="' + s.placeholder + '">';
+      html += '<div class="hint-popup"><ul>';
+      for (var h = 0; h < s.hints.length; h++) {
+        html += '<li>' + s.hints[h] + '</li>';
+      }
+      html += '</ul></div></div>';
+    }
+    document.getElementById('templateSlots').innerHTML = html;
+  }
+
+  function reflectTemplateToMain() {
+    var slots = document.querySelectorAll('.slot-input');
+    var parts = [];
+    for (var i = 0; i < slots.length; i++) {
+      var v = slots[i].value.trim();
+      if (v) parts.push(v);
+    }
+    if (parts.length > 0) {
+      document.getElementById('mainPostEdit').value = parts.join('。') + '。';
+      updateMainPostCounter();
+      showToast('テンプレから反映しました', 'info');
+    } else {
+      showToast('穴埋めに入力してから反映してください', 'error');
+    }
+  }
+
+  // ============================================================
+  // リプライ管理
+  // ============================================================
+  function addReplyBlock(initialText) {
+    APP.replyCount++;
+    var idx = APP.replyCount;
+    var block = document.createElement('div');
+    block.className = 'reply-block';
+    block.id = 'reply_' + idx;
+    block.innerHTML = '<div class="reply-header">' +
+      '<span class="reply-label">リプ' + idx + '</span>' +
+      '<button class="btn-remove-reply" onclick="removeReply(' + idx + ')">×</button>' +
+      '</div>' +
+      '<textarea class="input-field" id="replyText_' + idx + '" rows="3" placeholder="リプライを入力..." oninput="updateReplyCounter(' + idx + ')">' + (initialText || '') + '</textarea>' +
+      '<div class="char-counter" id="replyCounter_' + idx + '">' + (initialText ? initialText.length : 0) + '/140</div>';
+    document.getElementById('replyBlocks').appendChild(block);
+  }
+
+  function removeReply(idx) {
+    var el = document.getElementById('reply_' + idx);
+    if (el) el.remove();
+  }
+
+  function updateReplyCounter(idx) {
+    var text = document.getElementById('replyText_' + idx).value;
+    var counter = document.getElementById('replyCounter_' + idx);
+    counter.textContent = text.length + '/140';
+    counter.className = 'char-counter';
+    if (text.length > 140) counter.className += ' over';
+    else if (text.length > 130) counter.className += ' warn';
+  }
+
+  // ============================================================
+  // コピー機能
+  // ============================================================
+  function copyPostText(idx) {
+    if (APP.posts <?!= include('Ui_App.js') ?><?!= include('Ui_App.js') ?> APP.posts[idx]) {
+      copyToClipboard(APP.posts[idx].text);
+    }
+  }
+
+  function copyMainPost() {
+    var text = document.getElementById('mainPostEdit').value;
+    copyToClipboard(text);
+  }
+
+  function copyReply(idx) {
+    var el = document.getElementById('replyText_' + (idx + 1));
+    if (el) copyToClipboard(el.value);
+  }
+
+  function copyAllReplies() {
+    var blocks = document.querySelectorAll('[id^="replyText_"]');
+    var texts = [];
+    for (var i = 0; i < blocks.length; i++) {
+      if (blocks[i].value.trim()) texts.push(blocks[i].value.trim());
+    }
+    if (texts.length > 0) {
+      copyToClipboard(texts.join('
+---
+'));
+    }
+  }
+
+  function copyToClipboard(text) {
+    if (!text) { showToast('コピーする内容がありません', 'error'); return; }
+
+    // 新しいClipboard API
+    if (navigator.clipboard <?!= include('Ui_App.js') ?><?!= include('Ui_App.js') ?> navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        showToast('コピーしました！', 'success');
+      }).catch(function () {
+        fallbackCopy(text);
+      });
+    } else {
+      fallbackCopy(text);
+    }
+  }
+
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      showToast('コピーしました！', 'success');
+    } catch (e) {
+      showToast('コピーに失敗しました', 'error');
+    }
+    document.body.removeChild(ta);
+  }
+
+  // ============================================================
+  // 戦略ガイド
+  // ============================================================
+  function renderStrategyGuide(guide) {
+    if (!guide) return;
+    var html = '<h4>📌 ' + APP.strategy + ' 戦略ガイド</h4>';
+    html += '<div class="guide-item"><span class="emoji">🎯</span>KPI目安：' + guide.kpi + '</div>';
+    html += '<div class="guide-item"><span class="emoji">📐</span>構造：' + guide.structure + '</div>';
+    html += '<div class="guide-item"><span class="emoji">⏱</span>1分ルーチン：' + guide.routine + '</div>';
+    html += '<h4 class="mt-2" style="color:#FC8181;">🚫 やるな3つ</h4>';
+    for (var i = 0; i < guide.dontDo.length; i++) {
+      html += '<div class="guide-item dont"><span class="emoji">❌</span>' + guide.dontDo[i] + '</div>';
+    }
+    html += '<div class="guide-item mt-1"><span class="emoji">🔄</span>A/B差分：A=' + guide.abDiff.A + ' / B=' + guide.abDiff.B + '</div>';
+    document.getElementById('strategyGuidePanel').innerHTML = html;
+  }
+
+  // ============================================================
+  // 辞書
+  // ============================================================
+  function loadDictionary() {
+    if (!APP.token) return;
+    showLoading('辞書読み込み中...');
+    callApi('apiGetDictionary', { token: APP.token })
+      .then(function (res) {
+        hideLoading();
+        if (!res.success) return;
+        var d = res.dictionary;
+        document.getElementById('dictFacts').value = d.facts || '';
+        document.getElementById('dictNumbers').value = d.numbers || '';
+        document.getElementById('dictEfforts').value = d.efforts || '';
+        document.getElementById('dictEmotions').value = d.emotions || '';
+        document.getElementById('dictAesthetics').value = d.aesthetics || '';
+        document.getElementById('dictPunchline').value = d.punchline || '';
+      })
+      .catch(function () {
+        hideLoading();
+      });
+  }
+
+  function handleSaveDictionary() {
+    showLoading('保存中...');
+    var updates = {
+      facts: document.getElementById('dictFacts').value.trim(),
+      numbers: document.getElementById('dictNumbers').value.trim(),
+      efforts: document.getElementById('dictEfforts').value.trim(),
+      emotions: document.getElementById('dictEmotions').value.trim(),
+      aesthetics: document.getElementById('dictAesthetics').value.trim(),
+      punchline: document.getElementById('dictPunchline').value.trim()
+    };
+
+    callApi('apiUpdateDictionary', { token: APP.token, updates: updates })
+      .then(function (res) {
+        hideLoading();
+        if (res.success) {
+          showToast('辞書を保存しました！', 'success');
+        } else {
+          showToast(res.message, 'error');
+        }
+      })
+      .catch(function () {
+        hideLoading();
+        showToast('保存に失敗しました。', 'error');
+      });
+  }
+
+  // ============================================================
+  // Growth Console
+  // ============================================================
+  function loadGrowth() {
+    if (!APP.token) return;
+    callApi('apiGetDashboard', { token: APP.token })
+      .then(function (res) {
+        if (!res.success) return;
+        document.getElementById('growthTotal').textContent = res.totalCount;
+        document.getElementById('growthToday').textContent = res.todayCount;
+      })
+      .catch(function (err) {
+        console.error('growth load error:', err);
+      });
+  }
+
+  // ============================================================
+  // ランダムヒント
+  // ============================================================
+  var RANDOM_HINTS = [
+    '一番最初に諦めかけた瞬間は？',
+    'それでも続けた理由は？',
+    '誰にも言っていない失敗は？',
+    '一番嬉しかった反応は？',
+    'もう一度やるなら何を変える？',
+    '始めた時、周りに何と言われた？',
+    '一番お金をかけたことは？',
+    '夜中に考えてしまうことは？',
+    '成功と失敗の分かれ目は何だった？',
+    '3ヶ月前の自分に伝えたいことは？',
+    '一番時間を無駄にしたことは？',
+    '「やめようかな」と思った回数は？',
+    '意外と効果があった小さな工夫は？'
+  ];
+
+  function showRandomHint() {
+    var hint = RANDOM_HINTS[Math.floor(Math.random() * RANDOM_HINTS.length)];
+    document.getElementById('randomHint').textContent = '💭 ' + hint;
+  }
+
+  // ============================================================
+  // ユーティリティ
+  // ============================================================
+  function showLoading(text) {
+    document.getElementById('loadingText').textContent = text || '読み込み中...';
+    document.getElementById('loadingOverlay').classList.remove('hidden');
+  }
+
+  function hideLoading() {
+    document.getElementById('loadingOverlay').classList.add('hidden');
+  }
+
+  function showToast(message, type) {
+    var toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.className = 'toast ' + (type || 'info');
+    toast.classList.remove('hidden');
+    setTimeout(function () {
+      toast.classList.add('hidden');
+    }, 3000);
+  }
+
+  function escapeHtml(text) {
+    var div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+</script>
+
+</body>
+
+</html>

@@ -13,8 +13,37 @@
     strategyColor: null,
     posts: null,
     replyCount: 0,
-    templateData: null
+    templateData: null,
+    shareKey: '', // 追加
+    // Vercelデプロイ時のGASバックエンドURL
+    gasUrl: 'https://script.google.com/macros/s/AKfycbyARAuxDvgIRAH3-K9peyYTO0kdMuccij2Udkld46plyrOAeFqpFv00MfBF6GsAwnq6/exec'
   };
+
+  /**
+   * API呼び出しの統合ラッパー
+   * GAS環境なら google.script.run、Vercel等なら fetch (/api/proxy) を使用
+   */
+  async function callApi(action, payload) {
+    return new Promise((resolve, reject) => {
+      // GAS環境判定
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(resolve)
+          .withFailureHandler(reject)
+        [action].apply(google.script.run, payload);
+      } else {
+        // Vercel環境: 自前のAPIプロキシを経由してGASを叩く
+        fetch('/api/proxy', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: action, payload: payload })
+        })
+          .then(res => res.json())
+          .then(resolve)
+          .catch(reject);
+      }
+    });
+  }
 
   // ============================================================
   // 画面遷移
@@ -82,8 +111,8 @@
     showLoading('ログイン中...');
     document.getElementById('btnLogin').disabled = true;
 
-    google.script.run
-      .withSuccessHandler(function (res) {
+    callApi('apiLogin', { shareKey: shareKey, gmail: gmail, password: password })
+      .then(function (res) {
         hideLoading();
         document.getElementById('btnLogin').disabled = false;
         if (res.success) {
@@ -99,12 +128,11 @@
           showToast(res.error || 'ログインに失敗しました', 'error');
         }
       })
-      .withFailureHandler(function (err) {
+      .catch(function (err) {
         hideLoading();
         document.getElementById('btnLogin').disabled = false;
         showToast('通信エラーが発生しました。', 'error');
-      })
-      .apiLogin(shareKey, gmail, password);
+      });
   }
 
   // ============================================================
@@ -126,8 +154,8 @@
       return;
     }
 
-    google.script.run
-      .withSuccessHandler(function (res) {
+    callApi('apiGetStartupItems', { shareKey: APP.shareKey })
+      .then(function (res) {
         console.log('StartupItems res:', res);
         if (!res || !res.success) {
           console.error('apiGetStartupItems の取得に失敗しました');
@@ -173,24 +201,22 @@
         setCopyClick('presentIconWrap', iconUrl, 'アイコンURL');
 
       })
-      .withFailureHandler(function (err) {
+      .catch(function (err) {
         console.error('apiGetStartupItems error:', err);
-      })
-      .apiGetStartupItems(APP.shareKey);
+      });
   }
 
   function handleCompleteFirstLogin() {
     showLoading('準備中...');
-    google.script.run
-      .withSuccessHandler(function (res) {
+    callApi('apiCompleteFirstLogin', { token: APP.token })
+      .then(function (res) {
         hideLoading();
         navigateTo('comingSoon'); // Coming Soonへ遷移
       })
-      .withFailureHandler(function () {
+      .catch(function () {
         hideLoading();
         navigateTo('comingSoon');
-      })
-      .apiCompleteFirstLogin(APP.token);
+      });
   }
 
   // ============================================================
@@ -198,8 +224,8 @@
   // ============================================================
   function loadDashboard() {
     if (!APP.token) return;
-    google.script.run
-      .withSuccessHandler(function (res) {
+    callApi('apiGetDashboard', { token: APP.token })
+      .then(function (res) {
         if (!res.success) return;
         document.getElementById('dashUserName').textContent = (res.accountName || res.userName || '') + ' — Command Deck';
         document.getElementById('dashTodayCount').textContent = res.todayCount;
@@ -213,7 +239,9 @@
         APP.strategy = res.strategy;
         APP.strategyColor = res.strategyColor;
       })
-      .apiGetDashboard(APP.token);
+      .catch(function (err) {
+        console.error('dashboard error:', err);
+      });
   }
 
   // ============================================================
@@ -221,8 +249,8 @@
   // ============================================================
   function loadStudio() {
     if (!APP.token) return;
-    google.script.run
-      .withSuccessHandler(function (res) {
+    callApi('apiGetStrategyGuide', { token: APP.token })
+      .then(function (res) {
         if (!res.success) return;
         var banner = document.getElementById('studioStrategyBanner');
         banner.textContent = '今日は' + res.dayName + '曜日。' + res.strategy + ' で伸ばす日です。';
@@ -232,17 +260,18 @@
         // 戦略ガイド表示
         renderStrategyGuide(res.guide);
 
-        // 残り回数
-        google.script.run
-          .withSuccessHandler(function (dashRes) {
-            if (dashRes.success) {
-              var remaining = dashRes.dailyMax - dashRes.todayCount;
-              document.getElementById('studioRemaining').textContent = Math.max(0, remaining);
-            }
-          })
-          .apiGetDashboard(APP.token);
+        // 残り回数取得 (Dashboard経由)
+        return callApi('apiGetDashboard', { token: APP.token });
       })
-      .apiGetStrategyGuide(APP.token);
+      .then(function (dashRes) {
+        if (dashRes && dashRes.success) {
+          var remaining = dashRes.dailyMax - dashRes.todayCount;
+          document.getElementById('studioRemaining').textContent = Math.max(0, remaining);
+        }
+      })
+      .catch(function (err) {
+        console.error('studio init error:', err);
+      });
 
     // 文字数カウンター
     document.getElementById('inputTheme').oninput = function () {
@@ -263,8 +292,8 @@
     showLoading('AI生成中...');
     document.getElementById('btnGenerate').disabled = true;
 
-    google.script.run
-      .withSuccessHandler(function (res) {
+    callApi('apiGeneratePosts', { token: APP.token, theme: theme, target: target, params: null })
+      .then(function (res) {
         hideLoading();
         document.getElementById('btnGenerate').disabled = false;
         if (res.success) {
@@ -276,12 +305,11 @@
           showToast(res.message, 'error');
         }
       })
-      .withFailureHandler(function (err) {
+      .catch(function (err) {
         hideLoading();
         document.getElementById('btnGenerate').disabled = false;
         showToast('生成に失敗しました。再度お試しください。', 'error');
-      })
-      .apiGeneratePosts(APP.token, theme, target, null);
+      });
   }
 
   function renderGenerationResult(res) {
@@ -513,8 +541,8 @@
   function loadDictionary() {
     if (!APP.token) return;
     showLoading('辞書読み込み中...');
-    google.script.run
-      .withSuccessHandler(function (res) {
+    callApi('apiGetDictionary', { token: APP.token })
+      .then(function (res) {
         hideLoading();
         if (!res.success) return;
         var d = res.dictionary;
@@ -525,8 +553,9 @@
         document.getElementById('dictAesthetics').value = d.aesthetics || '';
         document.getElementById('dictPunchline').value = d.punchline || '';
       })
-      .withFailureHandler(function () { hideLoading(); })
-      .apiGetDictionary(APP.token);
+      .catch(function () {
+        hideLoading();
+      });
   }
 
   function handleSaveDictionary() {
@@ -540,8 +569,8 @@
       punchline: document.getElementById('dictPunchline').value.trim()
     };
 
-    google.script.run
-      .withSuccessHandler(function (res) {
+    callApi('apiUpdateDictionary', { token: APP.token, updates: updates })
+      .then(function (res) {
         hideLoading();
         if (res.success) {
           showToast('辞書を保存しました！', 'success');
@@ -549,11 +578,10 @@
           showToast(res.message, 'error');
         }
       })
-      .withFailureHandler(function () {
+      .catch(function () {
         hideLoading();
         showToast('保存に失敗しました。', 'error');
-      })
-      .apiUpdateDictionary(APP.token, updates);
+      });
   }
 
   // ============================================================
@@ -561,13 +589,15 @@
   // ============================================================
   function loadGrowth() {
     if (!APP.token) return;
-    google.script.run
-      .withSuccessHandler(function (res) {
+    callApi('apiGetDashboard', { token: APP.token })
+      .then(function (res) {
         if (!res.success) return;
         document.getElementById('growthTotal').textContent = res.totalCount;
         document.getElementById('growthToday').textContent = res.todayCount;
       })
-      .apiGetDashboard(APP.token);
+      .catch(function (err) {
+        console.error('growth load error:', err);
+      });
   }
 
   // ============================================================
