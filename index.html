@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-  /* ============================================================
+/* ============================================================
    CC Lume — Ui_Style.css
    全画面CSS（戦略色分け・レスポンシブ・洗練デザイン）
    ============================================================ */
@@ -1211,7 +1211,7 @@
   </nav>
 
   <script>
-  /* ============================================================
+/* ============================================================
      CC Lume — Ui_App.js
      フロントJS（全画面制御・API通信・穴埋め・リプライ・コピー・ヒント）
      ============================================================ */
@@ -1238,21 +1238,31 @@
   async function callApi(action, payload) {
     return new Promise((resolve, reject) => {
       // GAS環境判定
-      if (typeof google !== 'undefined' <?!= include('Ui_App.js') ?><?!= include('Ui_App.js') ?> google.script <?!= include('Ui_App.js') ?><?!= include('Ui_App.js') ?> google.script.run) {
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
         google.script.run
           .withSuccessHandler(resolve)
           .withFailureHandler(reject)
         [action].apply(google.script.run, payload);
       } else {
         // Vercel環境: 自前のAPIプロキシを経由してGASを叩く
+        console.log('--- callApi (fetch) START ---', action);
         fetch('/api/proxy', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ action: action, payload: payload })
         })
-          .then(res => res.json())
-          .then(resolve)
-          .catch(reject);
+          .then(res => {
+            console.log('--- callApi (fetch) Status ---', res.status);
+            return res.json();
+          })
+          .then(data => {
+            console.log('--- callApi (fetch) SUCCESS ---', action, data.success);
+            resolve(data);
+          })
+          .catch(err => {
+            console.error('--- callApi (fetch) ERROR ---', action, err);
+            reject(err);
+          });
       }
     });
   }
@@ -1263,7 +1273,7 @@
   function navigateTo(screen) {
     // === Version 1.0 寸断ガード ===
     // ログイン済みかつComing Soonが表示されるべき状態なら、他画面への遷移を阻止
-    if (APP.token <?!= include('Ui_App.js') ?><?!= include('Ui_App.js') ?> screen !== 'login' <?!= include('Ui_App.js') ?><?!= include('Ui_App.js') ?> screen !== 'present' <?!= include('Ui_App.js') ?><?!= include('Ui_App.js') ?> screen !== 'comingSoon') {
+    if (APP.token && screen !== 'login' && screen !== 'present' && screen !== 'comingSoon') {
       screen = 'comingSoon';
     }
 
@@ -1377,7 +1387,7 @@
         var bannerUrl = res.bannerUrl || '';
         var iconUrl = res.iconUrl || '';
         var x = (res.xId || '').trim();
-        if (x <?!= include('Ui_App.js') ?><?!= include('Ui_App.js') ?> x[0] !== '@') x = '@' + x;
+        if (x && x[0] !== '@') x = '@' + x;
 
         document.getElementById('presentAccountName').textContent = res.accountName || '';
         document.getElementById('presentId').textContent = x;
@@ -1476,7 +1486,7 @@
         return callApi('apiGetDashboard', { token: APP.token });
       })
       .then(function (dashRes) {
-        if (dashRes <?!= include('Ui_App.js') ?><?!= include('Ui_App.js') ?> dashRes.success) {
+        if (dashRes && dashRes.success) {
           var remaining = dashRes.dailyMax - dashRes.todayCount;
           document.getElementById('studioRemaining').textContent = Math.max(0, remaining);
         }
@@ -1673,7 +1683,7 @@
   // コピー機能
   // ============================================================
   function copyPostText(idx) {
-    if (APP.posts <?!= include('Ui_App.js') ?><?!= include('Ui_App.js') ?> APP.posts[idx]) {
+    if (APP.posts && APP.posts[idx]) {
       copyToClipboard(APP.posts[idx].text);
     }
   }
@@ -1695,9 +1705,7 @@
       if (blocks[i].value.trim()) texts.push(blocks[i].value.trim());
     }
     if (texts.length > 0) {
-      copyToClipboard(texts.join('
----
-'));
+      copyToClipboard(texts.join('\n---\n'));
     }
   }
 
@@ -1705,7 +1713,7 @@
     if (!text) { showToast('コピーする内容がありません', 'error'); return; }
 
     // 新しいClipboard API
-    if (navigator.clipboard <?!= include('Ui_App.js') ?><?!= include('Ui_App.js') ?> navigator.clipboard.writeText) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(function () {
         showToast('コピーしました！', 'success');
       }).catch(function () {

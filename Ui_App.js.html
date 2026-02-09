@@ -33,14 +33,24 @@
         [action].apply(google.script.run, payload);
       } else {
         // Vercel環境: 自前のAPIプロキシを経由してGASを叩く
+        console.log('--- callApi (fetch) START ---', action);
         fetch('/api/proxy', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ action: action, payload: payload })
         })
-          .then(res => res.json())
-          .then(resolve)
-          .catch(reject);
+          .then(res => {
+            console.log('--- callApi (fetch) Status ---', res.status);
+            return res.json();
+          })
+          .then(data => {
+            console.log('--- callApi (fetch) SUCCESS ---', action, data.success);
+            resolve(data);
+          })
+          .catch(err => {
+            console.error('--- callApi (fetch) ERROR ---', action, err);
+            reject(err);
+          });
       }
     });
   }
