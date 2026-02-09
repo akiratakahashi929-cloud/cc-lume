@@ -347,16 +347,19 @@
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border-radius: 24px;
-    padding: 1.5rem;
+    padding: 1rem;
     margin-bottom: 2rem;
     border: 1px solid rgba(10, 10, 31, 0.05);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.03);
+    max-width: 480px;
+    margin: 0 auto 2rem;
   }
 
   .banner-box {
     width: 100%;
-    margin-bottom: 1.5rem;
-    border-radius: 16px;
+    max-width: 400px;
+    margin: 0 auto 1.5rem;
+    border-radius: 12px;
     overflow: hidden;
   }
 
@@ -364,20 +367,21 @@
     width: 100%;
     display: block;
     object-fit: cover;
-    aspect-ratio: 16 / 7;
+    aspect-ratio: 3 / 1;
   }
 
   .profile-main {
     display: flex;
     align-items: center;
-    gap: 1.25rem;
-    margin-bottom: 1.5rem;
+    gap: 1rem;
+    margin-bottom: 1rem;
     padding: 0 0.5rem;
+    justify-content: center;
   }
 
   .icon-box {
-    width: 68px;
-    height: 68px;
+    width: 54px;
+    height: 54px;
     flex-shrink: 0;
   }
 
@@ -387,18 +391,18 @@
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #FFFFFF;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   }
 
   .p-name {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 800;
     color: #0A0A1F;
     letter-spacing: -0.01em;
   }
 
   .p-id {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: rgba(10, 10, 31, 0.4);
     font-weight: 600;
     margin-top: 0.1rem;
@@ -406,15 +410,18 @@
 
   .profile-bio-box {
     background: #F1F3F9;
-    padding: 1.5rem;
-    border-radius: 20px;
-    margin-bottom: 2rem;
+    padding: 1.25rem;
+    border-radius: 16px;
+    margin-bottom: 1.5rem;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .p-bio {
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     color: #4A4A68;
-    line-height: 1.7;
+    line-height: 1.6;
     white-space: pre-wrap;
   }
 
@@ -428,6 +435,8 @@
     color: #0A0A1F;
     text-align: center;
     border: 1px solid rgba(10, 10, 31, 0.05);
+    max-width: 400px;
+    margin: 0 auto;
   }
 
   .copy-guide {
