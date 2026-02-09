@@ -346,6 +346,103 @@
       display: none;
     }
   }
+
+  /* === スターターキット / プロフィール表示用スタイル === */
+  .profile-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 24px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(10, 10, 31, 0.05);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.03);
+  }
+
+  .banner-box {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .banner-box img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    aspect-ratio: 16 / 7;
+  }
+
+  .profile-main {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
+  }
+
+  .icon-box {
+    width: 68px;
+    height: 68px;
+    flex-shrink: 0;
+  }
+
+  .icon-box img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #FFFFFF;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  .p-name {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #0A0A1F;
+    letter-spacing: -0.01em;
+  }
+
+  .p-id {
+    font-size: 0.9rem;
+    color: rgba(10, 10, 31, 0.4);
+    font-weight: 600;
+    margin-top: 0.1rem;
+  }
+
+  .profile-bio-box {
+    background: #F1F3F9;
+    padding: 1.5rem;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+  }
+
+  .p-bio {
+    font-size: 0.95rem;
+    color: #4A4A68;
+    line-height: 1.7;
+    white-space: pre-wrap;
+  }
+
+  .p-invite {
+    background: #F8F9FF;
+    padding: 1rem;
+    border-radius: 12px;
+    font-family: monospace;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #0A0A1F;
+    text-align: center;
+    border: 1px solid rgba(10, 10, 31, 0.05);
+  }
+
+  .copy-guide {
+    text-align: center;
+    font-size: 0.85rem;
+    color: rgba(10, 10, 31, 0.5);
+    margin: 1.5rem 0;
+    font-weight: 500;
+  }
 </style>
 </head>
 
