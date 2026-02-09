@@ -1,0 +1,10 @@
+_backup_js/**
+.clasp.json
+.claspignore
+node_modules/**
+package-lock.json
+package.json
+task.md
+implementation_plan.md
+walkthrough.md
+**/.*

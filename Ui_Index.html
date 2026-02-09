@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <?!= include('Ui_Style.css') ?>
+</head>
+
+<body>
+
+  <!-- ============ ローディング ============ -->
+  <div id="loadingOverlay" class="loading-overlay hidden">
+    <div class="spinner"></div>
+    <div class="loading-text" id="loadingText">読み込み中...</div>
+  </div>
+
+  <!-- === Coming Soon 画面 === -->
+  <div id="screenComingSoon" class="screen">
+    <div class="brand-header">
+      <div class="logo">CC Lume 2.0</div>
+      <div class="tagline">COMING SOON</div>
+    </div>
+
+    <div class="card text-center">
+      <div style="font-size: 3rem; margin-bottom: 1rem;">🚀</div>
+      <h2 style="margin-bottom: 1rem;">Coming Soon...</h2>
+      <p style="color: #7A7592; font-size: 0.9rem; margin-bottom: 2rem;">
+        ご登録ありがとうございます。<br>
+        投稿作成機能を含むフルバージョンは現在開発中です。<br>
+        準備が整い次第、順次公開させていただきます。
+      </p>
+      <button class="btn btn-secondary btn-full" onclick="handleLogout()">ログアウトして閉じる</button>
+    </div>
+  </div>
+
+  <!-- === Dashboard 画面 === -->
+  <div id="toast" class="toast hidden"></div>
+
+  <!-- ============================================================
+     Screen 1: Access Gate（ログイン）
+     ============================================================ -->
+  <div id="screenLogin" class="screen active">
+    <div class="brand-header">
+      <div class="logo">CC Lume</div>
+      <div class="tagline">Your Post Engine</div>
+    </div>
+
+    <div class="card card-glow mt-3">
+      <div class="card-title">Access Gate</div>
+
+      <div class="input-group">
+        <label>発行キーコード</label>
+        <input type="text" id="loginShareKey" class="input-field" placeholder="共有時に発行されたキー">
+      </div>
+      <div class="input-group">
+        <label>Gmailアドレス</label>
+        <input type="email" id="loginGmail" class="input-field" placeholder="example@gmail.com">
+      </div>
+      <div class="input-group">
+        <label>パスワード</label>
+        <input type="password" id="loginPassword" class="input-field" placeholder="パスワード">
+      </div>
+
+      <button class="btn btn-primary btn-full mt-2" id="btnLogin" onclick="handleLogin()">
+        ログイン
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+     Screen 2: Starter Kit（初回プレゼント）
+     ============================================================ -->
+  <div id="screenPresent" class="screen">
+    <div class="present-screen">
+      <div class="brand-header">
+        <div class="logo">Welcome!</div>
+        <div class="tagline">Starter Kit</div>
+      </div>
+
+      <div id="presentProfileArea" class="profile-card">
+        <div id="presentBannerWrap" class="banner-box hidden">
+          <img id="presentBannerImage" src="" alt="Banner">
+        </div>
+
+        <div class="profile-main">
+          <div id="presentIconWrap" class="icon-box hidden">
+            <img id="presentIconImage" src="" alt="Icon">
+          </div>
+          <div class="profile-info">
+            <div id="presentAccountName" class="p-name" title="タップでコピー"></div>
+            <div id="presentId" class="p-id" title="タップでコピー"></div>
+          </div>
+        </div>
+
+        <div class="profile-bio-box">
+          <div id="presentBio" class="p-bio"></div>
+        </div>
+
+        <div class="profile-meta">
+          <div class="input-group">
+            <label>📋 招待コード (タップでコピー)</label>
+            <div id="presentInviteCode" class="p-invite"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="copy-guide">
+        💡 各項目をタップして内容をコピーできます
+      </div>
+
+      <button class="btn btn-primary btn-full mt-3" onclick="handleCompleteFirstLogin()">
+        受け取ってはじめる
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+     Screen 3: Command Deck（ダッシュボード）
+     ============================================================ -->
+  <div id="screenDashboard" class="screen">
+    <div class="brand-header">
+      <div class="logo">CC Lume</div>
+      <div class="tagline" id="dashUserName"></div>
+    </div>
+
+    <!-- 戦略バナー -->
+    <div class="strategy-banner" id="dashStrategyBanner"></div>
+
+    <!-- ステータス -->
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-value" id="dashTodayCount">0</div>
+        <div class="stat-label">今日の生成</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="dashDailyMax">3</div>
+        <div class="stat-label">本日上限</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="dashTotalCount">0</div>
+        <div class="stat-label">累計生成</div>
+      </div>
+    </div>
+
+    <!-- アクション -->
+    <button class="btn btn-primary btn-full" onclick="navigateTo('studio')">
+      ✍️ 投稿をつくる
+    </button>
+    <button class="btn btn-secondary btn-full mt-1" onclick="navigateTo('dictionary')">
+      📖 辞書を育てる
+    </button>
+  </div>
+
+  <!-- ============================================================
+     Screen 4: Post Studio（投稿生成 - 1画面段階表示）
+     ============================================================ -->
+  <div id="screenStudio" class="screen">
+    <!-- 戦略バナー -->
+    <div class="strategy-banner" id="studioStrategyBanner"></div>
+
+    <!-- ① テーマ / ターゲット入力 -->
+    <div class="card">
+      <div class="card-title">① テーマ / ターゲット</div>
+      <div class="input-group">
+        <label>テーマ</label>
+        <input type="text" id="inputTheme" class="input-field" placeholder="例：副業審査に落ちた体験" maxlength="100">
+        <div class="char-counter"><span id="themeCount">0</span>/100</div>
+      </div>
+      <div class="input-group">
+        <label>ターゲット</label>
+        <input type="text" id="inputTarget" class="input-field" placeholder="例：副業初心者・不安層" maxlength="50">
+        <div class="char-counter"><span id="targetCount">0</span>/50</div>
+      </div>
+
+      <button class="btn btn-primary btn-full mt-1" id="btnGenerate" onclick="handleGenerate()">
+        🚀 生成する
+      </button>
+      <div class="text-center mt-1">
+        <span style="font-size:0.8rem;color:#7A7592;">残り <span id="studioRemaining">3</span> 回</span>
+      </div>
+    </div>
+
+    <!-- ② 投稿テンプレ（穴埋め）- 生成後に表示 -->
+    <div id="templateSection" class="hidden mt-2">
+      <div class="card">
+        <div class="card-title">② テンプレート（穴埋め）</div>
+        <div id="templateSlots"></div>
+      </div>
+    </div>
+
+    <!-- ③④ 生成結果 / メイン投稿 / リプライ -->
+    <div id="resultSection" class="hidden mt-2">
+      <!-- A/B投稿カード -->
+      <div id="postCards"></div>
+
+      <!-- ③ メイン投稿編集 -->
+      <div class="card mt-2">
+        <div class="card-title">③ メイン投稿（編集可能）</div>
+        <textarea id="mainPostEdit" class="input-field" rows="4" placeholder="テンプレから反映するか、直接編集してください"></textarea>
+        <div class="char-counter" id="mainPostCounter">0/140</div>
+        <button class="btn btn-sm btn-secondary mt-1" onclick="reflectTemplateToMain()">テンプレから本文に反映</button>
+      </div>
+
+      <!-- ④ リプライ編集 -->
+      <div class="card">
+        <div class="card-title">④ リプライ</div>
+        <div id="replyBlocks"></div>
+        <button class="btn btn-sm btn-secondary mt-1" onclick="addReplyBlock()">＋ リプを追加</button>
+      </div>
+
+      <!-- ⑤ 戦略ガイド -->
+      <div id="strategyGuidePanel" class="guide-panel mt-2"></div>
+
+      <!-- ⑥ コピーボタン -->
+      <div class="card mt-2">
+        <div class="card-title">⑥ コピー → Xに貼るだけ</div>
+        <button class="btn btn-copy btn-full mb-1" onclick="copyMainPost()">📋 メイン投稿をコピー</button>
+        <button class="btn btn-copy btn-full mb-1" onclick="copyReply(0)">📋 リプ1をコピー</button>
+        <button class="btn btn-copy btn-full" onclick="copyAllReplies()">📋 リプ全部を順番コピー</button>
+      </div>
+
+      <!-- 書き方ガイド（固定） -->
+      <div class="writing-guide">
+        <h5>📝 書き方ガイド（30秒）</h5>
+        <div class="guide-do">✅ 【 】をあなたの体験に置き換えてください</div>
+        <div class="guide-do">✅ 数字 or 固有名詞を1つ入れると強くなります</div>
+        <div class="guide-do">✅ 完璧に書こうとしなくてOK</div>
+        <div class="guide-dont mt-1">🚫 【】を消さずに投稿</div>
+        <div class="guide-dont">🚫 全部一般論にする</div>
+        <div class="guide-dont">🚫 CTAを無理につける</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+     Screen 5: Experience Dictionary（辞書）
+     ============================================================ -->
+  <div id="screenDictionary" class="screen">
+    <div class="brand-header">
+      <div class="logo" style="font-size:1.5rem;">Experience Dictionary</div>
+      <div class="tagline">あなたの引き出し</div>
+    </div>
+
+    <div class="card">
+      <div class="dict-category">
+        <label>📌 Facts（事実シーン）</label>
+        <div class="dict-hint">1件120〜160文字｜何があったか、具体的に</div>
+        <textarea id="dictFacts" class="input-field" rows="3" placeholder="例：CrowdWorksの審査に3回落ちた。原因は〜"></textarea>
+      </div>
+      <div class="dict-category">
+        <label>🔢 Numbers（数字）</label>
+        <div class="dict-hint">1件40文字以内｜具体的な数字</div>
+        <textarea id="dictNumbers" class="input-field" rows="2" placeholder="例：3ヶ月で月10万達成"></textarea>
+      </div>
+      <div class="dict-category">
+        <label>💪 Efforts（努力）</label>
+        <div class="dict-hint">1件80〜120文字｜何を頑張ったか</div>
+        <textarea id="dictEfforts" class="input-field" rows="3" placeholder="例：毎朝5時に起きて1時間だけ作業した"></textarea>
+      </div>
+      <div class="dict-category">
+        <label>❤️ Emotions（感情）</label>
+        <div class="dict-hint">1件40〜80文字｜その時の気持ち</div>
+        <textarea id="dictEmotions" class="input-field" rows="2" placeholder="例：悔しくて眠れなかった"></textarea>
+      </div>
+      <div class="dict-category">
+        <label>✨ Aesthetics（美学）</label>
+        <div class="dict-hint">1件80〜120文字｜大切にしていること</div>
+        <textarea id="dictAesthetics" class="input-field" rows="3" placeholder="例：量より質。1日1投稿でも本気で"></textarea>
+      </div>
+      <div class="dict-category">
+        <label>🎯 Punchline（言い切り）</label>
+        <div class="dict-hint">1件60〜90文字｜あなたの決め台詞</div>
+        <textarea id="dictPunchline" class="input-field" rows="2" placeholder="例：結局、やった人だけが語れる"></textarea>
+      </div>
+
+      <button class="btn btn-success btn-full mt-2" onclick="handleSaveDictionary()">
+        💾 辞書を保存
+      </button>
+
+      <div class="dict-approval">
+        これはあなたの辞書。育ててOK。<br>
+        後から違うと思ったら、直せばいい。
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================
+     Screen 6: Growth Console（生成履歴/KPI）
+     ============================================================ -->
+  <div id="screenGrowth" class="screen">
+    <div class="brand-header">
+      <div class="logo" style="font-size:1.5rem;">Growth Console</div>
+      <div class="tagline">あなたの成長記録</div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-value" id="growthTotal">0</div>
+        <div class="stat-label">累計生成数</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="growthToday">0</div>
+        <div class="stat-label">今日の生成</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">戦略実績</div>
+      <div style="font-size:0.85rem;color:#9B95B0;">
+        今後のアップデートで、戦略ごとの実績や反応率を表示予定です。
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+     ナビゲーションバー
+     ============================================================ -->
+  <nav id="navBar" class="nav-bar hidden">
+    <button class="nav-item active" data-screen="dashboard" onclick="navigateTo('dashboard')">
+      <span class="nav-icon">🏠</span>
+      <span>ホーム</span>
+    </button>
+    <button class="nav-item" data-screen="studio" onclick="navigateTo('studio')">
+      <span class="nav-icon">✍️</span>
+      <span>投稿</span>
+    </button>
+    <button class="nav-item" data-screen="dictionary" onclick="navigateTo('dictionary')">
+      <span class="nav-icon">📖</span>
+      <span>辞書</span>
+    </button>
+    <button class="nav-item" data-screen="growth" onclick="navigateTo('growth')">
+      <span class="nav-icon">📊</span>
+      <span>成長</span>
+    </button>
+  </nav>
+
+  <?!= include('Ui_App.js') ?>
+
+</body>
+
+</html>
