@@ -1,3 +1,4 @@
 .clasp.json
 _backup_js/
 node_modules/
+.vercel

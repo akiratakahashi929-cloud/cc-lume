@@ -12,10 +12,12 @@ function doPost(e) {
   let params;
   try {
     params = JSON.parse(e.postData.contents);
+    logInfo('doPost hit', { action: params.action }); // ログ追加
   } catch (err) {
+    logError('doPost parse error', err);
     return ContentService.createTextOutput(JSON.stringify({
       success: false,
-      error: 'Invalid JSON'
+      error: 'Invalid JSON: ' + err.toString()
     })).setMimeType(ContentService.MimeType.JSON);
   }
 
